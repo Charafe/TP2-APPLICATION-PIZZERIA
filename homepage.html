@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/homepage.css">
+    <title>Application de gestion de pizzeria</title>
+</head>
+
+<body>
+    <main>
+        <header>
+            <h1>PIZZERIA</h1>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="#/commande" data-route="commande">Commander</a></li>
+                    <li><a href="#/commandes" data-route="commandes">Mes commandes</a></li>
+                </ul>
+            </nav>
+        </header>
+        <aside class="listeprix">
+            <h4>Menu</h4>
+            <ul>
+                <li>
+                    Petite pizza … 8.00$
+                </li>
+                <li>Moyenne pizza … 12.00$</li>
+                <li>Grande pizza … 15.00$</li>
+                <li>Garniture viande …3.00$</li>
+                <li>Garniture légumes…1,00$</li>
+
+            </ul>
+
+        </aside>
+        <section id="commande" class="pizzas view">
+            <table>
+                <thead>
+                    <th colspan="2">Garniture</th>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><input type="radio" name="viande" id="pepperoni"><label for="pepperoni">Pepperoni</td>
+                        <td><input type="checkbox" id="oignon"><label for="oignon">Oignon</td>
+                    </tr>
+                    <tr>
+                        <td><input type="radio" name="viande" id="poulet"><label for="poulet">Poulet</td>
+                        <td><input type="checkbox" id="poivron"><label for="poivron">Poivron</td>
+                    </tr>
+                    <tr>
+                        <td><input type="radio" name="viande" id="viande"><label for="viande">Viande</td>
+                        <td><input type="checkbox" id="olives"><label for="olives">Olives</td>
+                    </tr>
+                    <tr>
+                        <td><input type="radio" name="viande" id="crevette"><label for="crevette">Crevette</td>
+                        <td><input type="checkbox" id="champignon"><label for="champignon">Champignon</td>
+                    </tr>
+                </tbody>
+            </table>
+            <table>
+                <thead>
+                        <th colspan="2">Format</th>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <input type="radio" name="format" id="format_petite"><label
+                                for="format_petite">Petite</label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="radio" name="format" id="format_moyenne"><label
+                                for="format_moyenne">Moyenne</label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="radio" name="format" id="format_grande"><label
+                                for="format_grande">Grande</label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" class="btn-container"><button id="orderbtn">Commander</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+        <section id="commandes" class="commandes view"></section>
+    </main>
+    <script src="./js/spa.js"></script>
+    <script src="./js/gestionpizza.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,115 @@
+html,
+body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+main {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+}
+
+header {
+    text-align: center;
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: rgb(208, 208, 208);
+    padding: 20px 15px;
+    grid-column-start: 1;
+    grid-column-end: 3;
+}
+
+header h1 {
+    font-size: 42px;
+    margin: 0px;
+}
+
+.main-nav {
+    margin-top: 10px;
+}
+.main-nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+}
+.main-nav a {
+    text-decoration: none;
+    color: #000;
+    padding: 6px 10px;
+    border-radius: 4px;
+}
+.main-nav a.active {
+    background: #333;
+    color: #fff;
+}
+.listeprix {
+    grid-column-start: 1;
+    grid-column-end: 1;
+    grid-row-start: 2;
+    grid-row-end: 3;
+    background: lightblue;
+    padding: 60px 10px 10px;
+    border: 1px solid black;
+}
+
+.listeprix ul {
+    margin: 0;
+    padding: 0;
+}
+
+.listeprix h4 {
+    text-align: center;
+    margin-top: 0;
+}
+
+.pizzas {
+    grid-column-start: 2;
+    grid-column-end: 3;
+    grid-row-start: 2;
+    grid-row-end: 2;
+    background-color: #D9544D;
+}
+
+.commandes {
+    grid-column-start: 2;
+    grid-column-end: 3;
+    grid-row-start: 3;
+    grid-row-end: 3;
+}
+.commande-item{
+    display:flex;
+}
+.commande-item p{
+    margin-right: 20px;
+}
+.delete-commande-btn {
+    background: #c0392b;
+    color: #fff;
+    border: none;
+    padding: 6px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+.delete-commande-btn:hover {
+    opacity: 0.9;
+}
+.pizzas table {
+    width: 100%;
+}
+
+.pizzas table:first-child {
+    margin-bottom: 20px;
+}
+
+.pizzas table input {
+    margin: 8px 20px;
+}
+
+.btn-container {
+    text-align: center;
+    padding-top: 40px;
+    ;
+}
