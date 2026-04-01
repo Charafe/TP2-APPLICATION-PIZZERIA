@@ -18,6 +18,7 @@ app.get('/', (req, res) => {
 // --- API REST pour garnitures viande (en mémoire) ---
 app.use(express.json());
 
+// VIANDES PAR DÉFAUT
 const DEFAULT_MEATS = [
   { id: 1, name: 'Pepperoni' },
   { id: 2, name: 'Poulet' },
@@ -103,7 +104,7 @@ app.delete('/api/meats/:id', (req, res) => {
   const idx = meats.findIndex(m => m.id === id);
   if (idx === -1) return res.status(404).json({ error: 'Garniture non trouvée' });
   const removed = meats.splice(idx, 1)[0];
-  res.json(removed);
+  res.json('Viande supprimée');
 });
 
 // --- API REST pour commandes (en mémoire) ---
@@ -117,12 +118,6 @@ function formatShortDate(d) {
     String(now.getMinutes()).padStart(2, '0');
 }
 
-function buildPhrase({ date, formatText, viandeText, garnituresText }) {
-  const dateStr = date ? formatShortDate(date) : formatShortDate();
-  return dateStr + ' - "' + (formatText || '') + '" Pizza "' + (viandeText || '') +
-    (garnituresText ? ' - ' + garnituresText : '') + '"';
-}
-
 const DEFAULT_ORDERS = [
   { id: 1, date: formatShortDate(), formatText: 'Moyenne', viandeText: 'Poulet', garnitures: ['Oignon', 'Poivron'], createdAt: new Date().toISOString()}
 ];
@@ -130,7 +125,7 @@ const DEFAULT_ORDERS = [
 let orders = DEFAULT_ORDERS.map(o => ({ ...o }));
 let nextOrderId = orders.length ? Math.max(...orders.map(o => o.id)) + 1 : 1;
 
-// GET /api/orders -> liste des commandes (stockées avec champ `phrase`)
+// GET /api/orders -> liste des commandes
 app.get('/api/orders', (req, res) => {
   const out = orders.map(o => ({
     id: o.id,
@@ -138,9 +133,6 @@ app.get('/api/orders', (req, res) => {
     formatText: o.formatText,
     viandeText: o.viandeText,
     garnitures: o.garnitures || [],
-    customer: o.customer || null,
-    status: o.status || 'pending',
-    createdAt: o.createdAt,
   }));
   res.json(out);
 });
@@ -165,7 +157,7 @@ app.post('/api/orders', (req, res) => {
   }
 
   if (!finalFormat || !finalViande) {
-    return res.status(400).json({ error: 'Les champs "formatText" et "viandeText" sont requis (ou fournissez une "phrase" parsable).' });
+    return res.status(400).json({ error: 'Les champs "formatText" et "viandeText" sont requis.' });
   }
 
   const newOrder = {
@@ -177,13 +169,14 @@ app.post('/api/orders', (req, res) => {
   };
 
   orders.push(newOrder);
-  // retourner l'objet stocké (avec phrase calculée pour affichage)
-  res.status(201).json({ ...newOrder, phrase: buildPhrase({ date: newOrder.date, formatText: newOrder.formatText, viandeText: newOrder.viandeText, garnituresText: (newOrder.garnitures || []).join(' - ') }) });
+  // retourner l'objet stocké
+  res.status(201).json(newOrder);
 });
 
 // DELETE /api/orders/:id -> supprimer une commande par id
 app.delete('/api/orders/:id', (req, res) => {
-  const id = Number(req.params.id);
+    const id = Number(req.params.id);
+    console.log(id);
   if (!Number.isInteger(id)) return res.status(400).json({ error: 'ID invalide' });
   const idx = orders.findIndex(o => o.id === id);
   if (idx === -1) return res.status(404).json({ error: 'Commande non trouvée' });

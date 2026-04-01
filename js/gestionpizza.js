@@ -145,50 +145,9 @@ function setupOrderButton() {
         // Poster au serveur
         fetch('/api/orders', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) })
             .then(res => { if (!res.ok) throw new Error('Erreur lors de la création de la commande'); return res.json(); })
-            .then(created => fetch('/api/orders').then(r => r.json()))
-            .then(list => { renderCommandes(list); })
+            .then(created => { if (window.loadAndRenderOrders) return window.loadAndRenderOrders(); })
             .catch(err => { console.error(err); alert('Impossible d\'enregistrer la commande.'); });
     });
 }
 
-function renderCommandes(orders) {
-    const section = document.querySelector('.commandes');
-    section.innerHTML = '';
-    if (!Array.isArray(orders)) return;
-
-    orders.forEach(o => {
-        const wrapper = document.createElement('div');
-        wrapper.className = 'commande-item';
-
-        const p = document.createElement('p');
-        p.textContent = o.phrase || (o.date + ' - "' + (o.formatText||'') + '" Pizza "' + (o.viandeText||'') + (o.garnitures && o.garnitures.length ? ' - ' + o.garnitures.join(' - ') : '') + '"');
-
-        const delBtn = document.createElement('button');
-        delBtn.type = 'button';
-        delBtn.className = 'delete-commande-btn';
-        delBtn.textContent = 'Supprimer';
-        delBtn.dataset.id = o.id;
-
-        delBtn.addEventListener('click', function () {
-            const id = this.dataset.id;
-            if (!confirm('Supprimer la commande ?')) return;
-            fetch('/api/orders/' + encodeURIComponent(id), { method: 'DELETE' })
-                .then(res => {
-                    if (!res.ok) throw new Error('Erreur suppression');
-                    return res.json();
-                })
-                .then(() => fetch('/api/orders').then(r => r.json()))
-                .then(list => renderCommandes(list))
-                .catch(err => { console.error(err); alert('Impossible de supprimer la commande.'); });
-        });
-
-        wrapper.appendChild(p);
-        wrapper.appendChild(delBtn);
-        section.appendChild(wrapper);
-    });
-}
-
-// Charger initial des commandes
-fetch('/api/orders').then(r => r.json()).then(list => renderCommandes(list)).catch(err => console.error('Erreur chargement commandes:', err))
-
-;
+// NOTE: rendering and deletion of past orders moved to js/orders.js
